@@ -65,13 +65,14 @@ def outlierfinder(vowel, (meanf1, standarddeviationf1, meanf2, standarddeviation
 			#print meanf1-(2*standarddeviationf1)
 			#print meanf1+(2*standarddeviationf1)
 			if f1 < meanf1-(2*standarddeviationf1) or f1 > meanf1+(2*standarddeviationf1):
-				alarms[linecount]=["X", "F1 problem", entry]
+				res=[1]
 			else:
-				alarms[linecount]=["0", "no problem", entry]
+				res=[0]
 			if f2 < meanf2-(2*standarddeviationf2) or f2 > meanf2+(2*standarddeviationf2):
-				alarms[linecount]=["X", "F2 problem", entry]
+				res.append(1)
 			else:
-				alarms[linecount]=["0", "no problem", entry]
+				res.append(0)
+			alarms[linecount]=[res, entry]
 	return alarms
 	print linecount
 
@@ -87,13 +88,15 @@ def outlierkiller(vowellist):
 	return result
 	print type(result)
 		
-	
+#get the complete dict
 t=outlierkiller(canadavowels)
 sortedt=dict(sorted(t.items()))
 f=open("test.txt", "w")
-
+#f.write(str(sortedt))
+#writing to file
 for item in sortedt:
-	f.write (str(item)+","+",".join(sortedt[item][2])+"\n")
+	#print sortedt[item][0]
+	f.write (str(item)+","+",".join(sortedt[item][1])+","+str(sortedt[item][0][0])+","+str(sortedt[item][0][1])+"\n")
 f.close()
 
 	
