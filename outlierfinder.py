@@ -98,6 +98,3 @@ for item in sortedt:
 	#print sortedt[item][0]
 	f.write (str(item)+","+",".join(sortedt[item][1])+","+str(sortedt[item][0][0])+","+str(sortedt[item][0][1])+"\n")
 f.close()
-
-	
-
