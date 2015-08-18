@@ -98,3 +98,61 @@ for item in sortedt:
 	#print sortedt[item][0]
 	f.write (str(item)+","+",".join(sortedt[item][1])+","+str(sortedt[item][0][0])+","+str(sortedt[item][0][1])+"\n")
 f.close()
+
+
+#output
+#9
+#DRESS
+#stdev f1n: 91.1443769144
+#stdev f2n 187.655577575
+#mean f1 686.602048236
+#mean f2 1857.77180346
+#9
+#FLEECE
+#stdev f1n: 75.3317785215
+#stdev f2n 286.943268303
+#mean f1 374.580973166
+#mean f2 2549.0656136
+#9
+#GOOSE
+#stdev f1n: 53.9687640379
+#stdev f2n 351.742661633
+#mean f1 394.870866941
+#mean f2 1258.10537174
+#9
+#KIT
+#stdev f1n: 62.2142869279
+#stdev f2n 192.899846163
+#mean f1 539.470561975
+#mean f2 2011.21132878
+#9
+#LOT
+#stdev f1n: 76.1041476372
+#stdev f2n 121.445061385
+#mean f1 748.226802116
+#mean f2 1181.38362222
+#9
+#PALM
+#stdev f1n: 77.2429653386
+#stdev f2n 207.939387183
+#mean f1 723.987301587
+#mean f2 1141.81255754
+#9
+#STRUT
+#stdev f1n: 81.9435029835
+#stdev f2n 170.745663288
+#mean f1 752.398121157
+#mean f2 1484.93321519
+#9
+#THOUGHT
+#stdev f1n: 61.6865766666
+#stdev f2n 131.540574348
+#mean f1 747.981377778
+#mean f2 1175.58369333
+#9
+#TRAP
+#stdev f1n: 136.774966471
+#stdev f2n 235.655345647
+#mean f1 764.98203866
+#mean f2 1815.86176598
+#logout
