@@ -7,29 +7,40 @@ from nltk.corpus import cmudict
 
 
 def cmureader(filename):
+    #this counter just for testing purposes
     count=0
-    vowels=["AA", "AH", "AW", "EH", "EY", "IH", "OW", "UH", "AE", "AO", "AY", "ER", "IY", "OY", "UW"]
     #getting the dictionary from NLTK
     cmudict=nltk.corpus.cmudict.dict()
+    #read in the spreadsheet
     f=codecs.open(filename, "r", "utf-8"); spreadsheet=[]
     for line in f:
         spreadsheet.append(line.rstrip("\r").split(","))
     print len(spreadsheet)
-    for entry in spreadsheet:
-        #the cmu is lowercase
+    print spreadsheet[1]
+    #process line by line, where each item in the list is a line
+    for entry in spreadsheet[1:len(spreadsheet)]:
+        #the cmu is lowercase; we need to get rid of all the numbers on the words
         word=re.sub("[^a-z]","", entry[5].lower())
         try:
             #if several entries, we just take the first one
             #none of the words has secondary stress
             x=cmudict[word][0]
-            primestressvowels=[str(i+"1") for i in vowels]
-            nostressvowels=[str(i+"0") for i in vowels]
-            y=[i for i in x if i in nostressvowels]
-            if len(y) == 0:
-                count=count+1
+            #find the primestressvowel and the two sounds next to it
+            context=vowelfinder(x)
+            print(len(context))
+            #print context
         except:
-            print word
+            print "error"
     print count
-        
+
+def vowelfinder(transcription):
+    #this makes a list of primary stress vowels based on the vowels list above
+    primestressvowels=[str(i+"1") for i in vowels]
+    #these are the vowels in the CMU dictionary
+    vowels=["AA", "AH", "AW", "EH", "EY", "IH", "OW", "UH", "AE", "AO", "AY", "ER", "IY", "OY", "UW"]
+    
+    for sound in transcription:
+        if sound in primestressvowels:
+            return (transcription.index(sound)-1, transcription.index(sound)+1)
 
 cmureader("canada_outliers_817.csv")
