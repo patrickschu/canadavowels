@@ -39,8 +39,8 @@ def cmureader(filename):
             print word
             print "error"
             break
-        output[int(entry[0])]=[entry, transcription, [list(i) for i in context]]
-    print len(output)
+        output[int(entry[0])]=[entry, transcription, [i for i in context]]
+    #print len(output)
     print output[2]
     return output
     
@@ -56,6 +56,23 @@ def vowelfinder(transcription):
     for sound in transcription:
         if sound in primestressvowels:
             #print sound
-            return [transcription.index(sound)-1, transcription.index(sound)+1]
+            return [transcription.index(sound)-1, transcription.index(sound), transcription.index(sound)+1]
+
+
+        
+def spreadsheetwriter(dicti, filename):
+    sorteddicti=dict(sorted(dicti.items()))
+    f=codecs.open(filename+".txt", "w")
+     #writing to file
+    for item in sorteddicti:
+        #print sortedt[item][0]
+        f.write (str(item)+","+",".join(sorteddicti[item][0])+
+                 ","+" ".join(sorteddicti[item][1])+","+
+                 ",".join(sorteddicti[item][2])+"\n")
+    f.close()
+
 
 t=cmureader("canada_outliers_817.csv")
+print t[2][2]
+spreadsheetwriter(t, "test_820")
+
