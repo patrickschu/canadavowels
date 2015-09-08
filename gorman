@@ -1,3 +1,5 @@
+#WARNING: THIS SCREWS UP WORD-INITIAL VOWELS ("ANNA")
+
 # for each WORD in the dataset, we get the CONTEXT from the CMU
 # Identify word and vowel
 # Look at vowel context
