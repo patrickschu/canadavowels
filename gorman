@@ -14,7 +14,7 @@ os.chdir("G:\\miscprojects\\canada")
 PPE_CODE = {'M': 'lab', 'P': 'lab', 'B': 'lab', 'F': 'lab', 'V': 'lab',
             'S':  'cor', 'T': 'cor', 'D':  'cor', 'CH': 'cor', 
             'JH': 'cor', 'N': 'cor', 'R': 'liq', 'L': 'liq',
-            'Y': 'gld', 'W': 'gld', 'K': 'vel', 'G': 'vel', 'HH': 'glt', 'TH':"unknown", 'AH0':'unkown'}
+            'Y': 'gld', 'W': 'gld', 'K': 'vel', 'G': 'vel', 'HH': 'glt', 'TH':"unknown", 'AH0':'unknown'}
 FPE_CODE = {'F': 'vlf', 'TH': 'vlf', 'S': 'vlf', 'SH': 'vlf', 'HH': 'vlf',
             'V': 'vdf', 'DH': 'vdf', 'Z': 'vdf', 'ZH': 'vdf',
             'M': 'nas', 'N': 'nas', 'NG': 'nas',
