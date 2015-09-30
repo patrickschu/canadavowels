@@ -1,6 +1,6 @@
 #PLOTTING PNGS FOR EACH GORMAN CONTEXT
 #GENERAL
-#change PPE and PFE twice; adapt mains to change preceding and following context
+#change PPE and FPE twice; adapt mains to change preceding and following context
 canada=read.csv(file.choose(), header=T)
 canada=subset(canada, canada$OUTLIER==0)
 print (summary(canada))
@@ -44,7 +44,7 @@ plotmachine2(vowels, "ETHNICITY", canada)
 
 #SAME FOR
 #AGE GROUPS
-#change PPE and PFE twice; adapt mains to change preceding and following context
+#change PPE and FPE twice; adapt mains to change preceding and following context
 canada=read.csv(file.choose(), header=T)
 canada=subset(canada, canada$OUTLIER==0)
 print (summary(canada))
