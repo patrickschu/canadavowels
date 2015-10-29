@@ -1,6 +1,3 @@
-#This code is used for the first outline. We remove bad contexts and start plotting by location
-
-
 save.image()
 setwd("H:/")
 library(vowels)
@@ -62,5 +59,27 @@ title="Means for Canadian (dot) vs American (+)", subtitle=paste("respective Ns:
 
 add.vowelplot(us_speakers_means, shape.choice=3)
 
+
+#boxplots per vowel and one predictor
+plotmachine2=function(vowels, predictor, dataset) 
+{
+#loop over vowels
+for (vow in vowels) { 
+#set up file and plot parameters
+print (vow); 
+print (predictor);
+#subset the data to a single vowel
+subseti=subset(dataset, VOWEL==vow);
+tokens=nrow(subseti)
+
+png(filename=paste(as.character(vow),"_", predictor, ".png"), width=800, height=400);  
+
+#boxplotting
+par(mfrow=c(1,2)); boxplot(subseti$F1n~subseti[,predictor], main=paste(vow, "F1, tokens: ", tokens), ylab="F1 (Nearey)"); 
+boxplot(subseti$F2n~subseti[,predictor], main=paste(vow, "F2, tokens: ", tokens), ylab="F2 (Nearey)"); 
+dev.off()
+}}
+
+plotmachine2(vowels, "LOCATION", can)
 
 
