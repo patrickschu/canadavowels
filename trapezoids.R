@@ -1,3 +1,5 @@
+speakers=levels(can$SPEAKER)
+
 trapezmachine= function(dataset){
 for (speak in speakers) {
 print (speak); subseti=subset(dataset, SPEAKER==speak); 
