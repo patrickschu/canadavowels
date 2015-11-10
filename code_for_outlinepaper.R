@@ -12,17 +12,18 @@ library(vowels)
 #note that LOCATION is just a dummy to be replaced by NAs. We just need
 #sth to make the vowel-package happy
 vowelplotmaker=function(dataset){
-vowels=dataset[,c("SPEAKER", "VOWEL", "LOCATION", "F1", "F2", "F3",
+vowels=dataset[,c("SPEAKER", "VOWEL", "LOCATION", "F1labov", "F2labov", "F3",
 "LOCATION", "LOCATION", "LOCATION")]
 vowels$LOCATION=NA
 vowels$LOCATION.1=NA
 vowels$LOCATION.2=NA
 vowels$LOCATION.3=NA
 return(vowels)
+}
 
 
 ##MAIN
-#original=read.csv(file.choose(), header=T)
+original=read.csv(file.choose(), header=T)
 
 
 #removing unpleasant contexts
@@ -37,13 +38,13 @@ nrow(can)
 #a required dataframe of the format: speaker_id, vowel_id, context/N, F1, F2, F3,
 #F1_glide, F2_glide, F3_glide. The context/N column and the glide columns can
 #be blank.
-#criterion="Van"
-#can=can[can$LOCATION==criterion,]
-#nrow(can)
-#canvowels=vowelplotmaker(can)
+criterion="Van"
+can=can[can$LOCATION==criterion,]
+nrow(can)
+canvowels=vowelplotmaker(can)
 
 #means 
-#canmeans=compute.means(canvowels)
+canmeans=compute.means(canvowels)
 
 #plot means
 #vowelplot(canmeans, labels="vowels", title=paste("Means for ",criterion, ", N= ",nrow(can), sep=""))
@@ -56,7 +57,7 @@ us_speakers=vowelplotmaker(can[can$LOCATION=="WA",])
 us_speakers_means=compute.means(us_speakers)
 
 vowelplot(canada_speakers_means, labels="vowels", 
-title="Means for Canadian (dot) vs American (+)", subtitle=paste("respective Ns:",
+title="Means for Canadian (dot) vs American (+), Labov-normalized", subtitle=paste("respective Ns:",
  nrow(canada_speakers),nrow(us_speakers)))
 
 add.vowelplot(us_speakers_means, shape.choice=3)
@@ -83,5 +84,4 @@ dev.off()
 }}
 
 plotmachine2(vowels, "LOCATION", can)
-
 
