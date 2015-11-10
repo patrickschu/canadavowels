@@ -8,6 +8,7 @@ library(vowels)
 #the vowelplot maker
 #this takes a dataset and turns it into something to work with for the
 #vowels package
+#note that depending on the application, we need F1 or F1_normalized
 vowelplotmaker=function(dataset){
 vowels=dataset[,c("SPEAKER", "VOWEL", "CONTEXT", "F1n", "F2n", "F3",
 "CONTEXT", "CONTEXT", "CONTEXT")]
