@@ -9,15 +9,16 @@ library(vowels)
 #this takes a dataset and turns it into something to work with for the
 #vowels package
 #note that depending on the application, we need F1 or F1_normalized
+#note that LOCATION is just a dummy to be replaced by NAs. We just need
+#sth to make the vowel-package happy
 vowelplotmaker=function(dataset){
-vowels=dataset[,c("SPEAKER", "VOWEL", "CONTEXT", "F1n", "F2n", "F3",
-"CONTEXT", "CONTEXT", "CONTEXT")]
-vowels$CONTEXT=NA
-vowels$CONTEXT.1=NA
-vowels$CONTEXT.2=NA
-vowels$CONTEXT.3=NA
+vowels=dataset[,c("SPEAKER", "VOWEL", "LOCATION", "F1", "F2", "F3",
+"LOCATION", "LOCATION", "LOCATION")]
+vowels$LOCATION=NA
+vowels$LOCATION.1=NA
+vowels$LOCATION.2=NA
+vowels$LOCATION.3=NA
 return(vowels)
-}
 
 
 ##MAIN
