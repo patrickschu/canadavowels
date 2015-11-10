@@ -32,20 +32,78 @@ def levels(spreadsheet, columnnumber):
 	print "levels", len(levels)
 	return (levels)
 
+#this just makes means and stdevs when you feed it a list of fx measures
+def meansanddevs(formantlist):
+    mean=numpy.mean(formantlist)
+    standarddeviation=numpy.std(formantlist)
+    return(mean, standarddeviation)
+
+
+
 canadavowels=levels(spreadsheet, 3)
 print canadavowels[0]
 
 canadaspeakers=levels(spreadsheet, 2)
 print canadaspeakers[0]
 
-#>>> spreadsheet[0][6]
-#u'F2'
-#>>> spreadsheet[0][5]
-#u'F1'
-#>>> spreadsheet[0][13]
-#u'F1n'
-#>>> spreadsheet[0][14]
-#u'F2n'
+###MAIN
+
+speakerdict=defaultdict()
+
+for speaki in canadaspeakers:
+    speakerdict[speaki]={"DRESS":[],
+     "FLEECE":[],
+     "GOOSE":[],
+     "KIT":[],
+     "LOT":[],
+     "PALM":[],
+     "STRUT":[],
+     "THOUGHT":[],
+     "TRAP":[]}
+
+#print speakerdict["CR W70F"]
+
+
+#7 - 9 in yeder row sind F1 - F3
+#speaker is 2 vowel is 3
+#no	NO	SPEAKER	VOWEL	CONTEXT	VOWEL2	WORD	F1	F2	F3	LOCATION	TOKEN	AGE	GENDER	ETHNICITY	F1n	F2n	AgeGrp	F1outlier	F2outlier	OUTLIER	PPE	FPE	TRANSCRIPTION	PRE_SOUND	VOWEL_TRANS	FOLL_SOUND
+#
+#we make a dict with each speaker as the entry; each entry in turn consists of
+# a dictionary with entries for each vowel. 
+for row in spreadsheet[1:len(spreadsheet)]:
+    speakerdict[row[2]][row[3]].append((row[7], row[8], row[9]))
+
+#print speakerdict["CR W70F"]
+
+#note that we're ignoring F3 here for now
+#from now, the last two entries for each vowel are the F1 and F2 means/stdev tuples
+for entry in speakerdict:
+    for vowi in speakerdict[entry]:
+        f1=[int(i[0]) for i in speakerdict[entry][vowi]]
+        f2=[int(i[1]) for i in speakerdict[entry][vowi]]
+        f3=[int(i[2]) for i in speakerdict[entry][vowi]]
+        f1results=meansanddevs(f1)
+        f2results=meansanddevs(f2)
+        speakerdict[entry][vowi]=speakerdict[entry][vowi]+[f1results, f2results]
+
+print len(speakerdict)
+    
+print speakerdict["CR W70F"]
+
+#we're done building the dictionary
+#now we iterate thru the spreadsheet again and flag suspicious outliers.
+#these are defined as "2 or more stdevs from the mean". here per vowel
+#we found this in the Paolo handbook, pg 194. 
+
+for row in spreadsheet[1:len(spreadsheet)]:
+    result=outlierfinder(row[2], row[7], row[8])
+    row.append(result)
+
+def outlierfinder(speaker, f1, f2):
+    look up f mean and stdev in speaker's speakerdicit entry
+    compare to f
+    return 1 for outlier, 0 for not outlier
+
 #for the vowel entered we compute the means and stdevs
 def meansanddevs(vowel):
 	f1list=[]
