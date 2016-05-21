@@ -97,17 +97,17 @@ colnames(can)
 cc=ggvowels(can, "The Vancouver Vowel System by age group", "F1labovstandard", "F2labovstandard", "AgeGrp")
 #F1 model
 var=can[can$VOWEL == "TRAP", ]
-linreg=lm(F1labovstandard~AGE+ETHNICITY, data=var)
+linreg=lm(F1labovstandard~AGE+ETHNICITY+GENDER, data=var)
 summary(linreg)
-linreg=lm(F1labovstandard~scale(AGE)+ETHNICITY, data=var)
+linreg=lm(F1labovstandard~scale(AGE)+ETHNICITY+GENDER, data=var)
 summary(linreg)
 
 #F2  model
 var=can[can$VOWEL == "TRAP", ]
-linreg=lm(F2labovstandard~AGE+ETHNICITY, data=var)
+linreg=lm(F2labovstandard~AGE+ETHNICITY+GENDER, data=var)
 summary(linreg)
 confint(linreg)
-linreg=lm(F2labovstandard~scale(AGE)+ETHNICITY, data=var)
+linreg=lm(F2labovstandard~scale(AGE)+ETHNICITY+GENDER, data=var)
 summary(linreg)
 
 ### AGE
@@ -186,6 +186,138 @@ var=can[can$VOWEL == "DRESS", ]
 var[["AgeGrp"]]=factor(var[["AgeGrp"]], c("Younger", "Middle", "Older"))
 write.csv(tapply(var$F1labovstandard, list(var$ETHNICITY, var$AgeGrp), mean))
 write.csv(tapply(var$F2labovstandard, list(var$ETHNICITY, var$AgeGrp), mean))
+
+###PLOTTING DRESS
+##TABLES
+var=can[can$VOWEL == "DRESS", ]
+var[["AgeGrp"]]=factor(var[["AgeGrp"]], c("Younger", "Middle", "Older"))
+write.csv(tapply(var$F1labovstandard, list(var$GENDER, var$AgeGrp), mean))
+write.csv(tapply(var$F1labovstandard, list(var$GENDER, var$ETHNICITY, var$AgeGrp), mean))
+write.csv(tapply(var$F2labovstandard, list(var$GENDER, var$AgeGrp), mean))
+write.csv(tapply(var$F2labovstandard, list(var$GENDER, var$ETHNICITY, var$AgeGrp), mean))
+
+
+##MATRIX FOR PLOTTING
+
+#note that this function would benefit from an *args style input
+#but who knows how that works in R
+ggonevowel = function(dataset, f1, f2, var1, var2){
+	
+genderagef1=aggregate(dataset[[f1]], list(dataset[[var1]], dataset[[var2]]), mean);
+genderagef2=aggregate(dataset[[f2]], list(dataset[[var1]], dataset[[var2]]), mean);
+genderage=cbind(genderagef1, genderagef2);
+colnames(genderage)=c(var1, var2, f1,'Group.1', 'Group.2', f2);
+#print (genderagef1);
+#print (genderagef2);
+print(genderage);
+gg=ggplot(data=can, aes_string(x=f2, y=f1));
+gg+
+coord_cartesian(xlim = c(1500, 2250), ylim=c(600, 912))+
+scale_y_reverse()+
+scale_x_reverse()+
+theme_bw()+
+geom_point(data=genderage, aes(x=genderage[[f2]], y=genderage[[f1]], colour=genderage[[var1]], shape=genderage[[var2]]), size=6)+
+ggtitle("DRESS in Vancouver by ethnicity and age");
+ggsave(filename="DRESS in Vancouver by ethnicity and age.png", width=8, height=5)
+
+}
+
+
+ggonevowel(var, 'F1labovstandard', 'F2labovstandard', 'AgeGrp', 'ETHNICITY' )
+
+asiaten=var[var$ETHNICITY=='Chinese Canadian',]
+ggonevowel(asiaten, 'F1labovstandard', 'F2labovstandard', 'GENDER', 'AgeGrp' )
+anglos=var[var$ETHNICITY=='Anglo-Irish Canadian',]
+ggonevowel(anglos, 'F1labovstandard', 'F2labovstandard', 'GENDER', 'AgeGrp' )
+
+
+def ggonevowel(dataset, f1, var1, var2){
+genderagef1=aggregate(var$F1labovstandard, list(var$GENDER, var$AgeGrp), mean)
+colnames(genderagef1)=c('meanF1', 'GENDER', 'AgeGrp')
+genderagef1
+}
+write.csv(tapply(var$F1labovstandard, list(var$GENDER, var$ETHNICITY, var$AgeGrp), mean))
+write.csv(tapply(var$F2labovstandard, list(var$GENDER, var$AgeGrp), mean))
+write.csv(tapply(var$F2labovstandard, list(var$GENDER, var$ETHNICITY, var$AgeGrp), mean))
+gg=ggplot(data=var, aes_string(x="F2", y="F1"));
+gg+
+scale_y_reverse()+
+scale_x_reverse()+
+coord_cartesian()+
+theme_bw()+
+geom_text(data=labelmeans, aes(x=F2, y=F1, label=VOWEL), size=3)+
+#we add actual datapoints
+geom_point(data=totalmeanies, aes(x=F2means, y=F1means, colour=SEPARATOR, label=VOWEL, group=VOWEL), size=6)+
+#ah! we need a title
+ggtitle(paste(title, "\n"));
+ggsave(paste(title,"_",separator,"_",i, ".png", sep=""), width=8, height=5)
+
+
+ggonevowel=function(dataset, title, normalized_F1, normalized_F2, separator)
+{
+# we turn aorund the levels of AgeGrp so we can read the plot better
+dataset[["AgeGrp"]]=factor(dataset[["AgeGrp"]], c("Younger", "Middle", "Older"));
+
+#these are the levels we iterate over
+seps=levels(dataset[[separator]]);
+
+#we set up a dataframe to fill with stuff
+totalmeanies=data.frame(
+VOWEL=character(), 
+F1means=numeric(), 
+F2means=numeric(), 
+SEPARATOR=character(),
+F1sd=numeric(),
+F2sd=numeric()
+);
+
+
+#we're done with the dataframe and set up the plot
+gg=ggplot(data=dataset, aes_string(x="F2", y="F1"));
+
+#we collect means for each group in the dataframe we set up above
+for (i in seps){ 
+print (i);
+#we construct a dataset for each separator
+subseti=dataset[dataset[,separator]==i,];
+#print(summary(subseti[subseti$VOWEL=="KIT",])); 
+
+
+#with the tapplys, we calculate the means and sds for every vowel
+averagef1=tapply(subseti[[normalized_F1]], subseti[["VOWEL"]], mean);
+averagef2=tapply(subseti[[normalized_F2]], subseti[["VOWEL"]], mean);
+stdevf1=tapply(subseti[[normalized_F1]], subseti[["VOWEL"]], sd);
+stdevf2=tapply(subseti[[normalized_F2]], subseti[["VOWEL"]], sd);
+#we put the whole shebang in a dataframe
+#print(averagef1);
+#print (averagef2);
+meanies=data.frame(
+VOWEL=names(averagef1), F1means=averagef1, F2means=averagef2, SEPARATOR=i, F1sd=stdevf1, F2sd=stdevf2);
+totalmeanies=rbind(meanies, totalmeanies);
+}
+write.csv(totalmeanies);
+##PLOTTING##
+gg=ggplot(data=dataset, aes_string(x="F2", y="F1"));
+gg+
+scale_y_reverse()+
+scale_x_reverse()+
+coord_cartesian()+
+theme_bw()+
+#ggtheme
+#theme_classic()+
+#we try to add points for the mean for each vowel, just for labeling purposes
+geom_text(data=labelmeans, aes(x=F2, y=F1, label=VOWEL), size=3)+
+#we add actual datapoints
+geom_point(data=totalmeanies, aes(x=F2means, y=F1means, colour=SEPARATOR, label=VOWEL, group=VOWEL), size=6)+
+#ah! we need a title
+ggtitle(paste(title, "\n"));
+ggsave(paste(title,"_",separator,"_",i, ".png", sep=""), width=8, height=5);
+
+return(totalmeanies)
+}
+
+ggonevowel(var, "The DRESS vowel", "F1labovstandard", "F2labovstandard", list("ETHNICITY", "AgeGrp"))
+
 
 
 
