@@ -8,15 +8,15 @@ This repository contains ...
 
 ###[Vowel plotting tools](https://github.com/patrickschu/canadavowels/blob/master/plotmachine.R)
 
-Automatic plotting of group means using ggplot.
+Automatic plotting of group means using ggplot. Sample output:
 
-*Formant means by gender, normalized.* 
+*Formant means by gender, normalized:* 
 
 ---
 ![alt-text](https://github.com/patrickschu/canadavowels/blob/master/Gender%20in%20the%20U.S._trans_GENDER_male.png "Means by gender")
 ---
 
-*Format means by age group, normalized."
+*Format means by age group, normalized:*
 
 ---
 ![alt-text](https://github.com/patrickschu/canadavowels/blob/master/The%20Canadian%20Shift%20US%20v%20CAN_trans_LOCATION_Washington.png "Means by age group")
