@@ -19,6 +19,6 @@ Automatic plotting of group means using ggplot. Sample output:
 *Format means by age group, normalized:*
 
 ---
-![alt-text](https://github.com/patrickschu/canadavowels/blob/master/The%20Canadian%20Shift%20US%20v%20CAN_trans_LOCATION_Washington.png "Means by age group")
+![alt-text](https://raw.githubusercontent.com/patrickschu/canadavowels/master/The%20Canadian%20Shift_AgeGrp_Older.png "Means by age group")
 ---
 
