@@ -6,7 +6,7 @@ With [Stefan Dollinger](http://english.ubc.ca/persons/stefan-dollinger/), UBC,  
 
 This repository contains ...
 
-###[Vowel plotting tools](https://github.com/patrickschu/canadavowels/blob/master/plotmachine.R)
+### [Vowel plotting tools](https://github.com/patrickschu/canadavowels/blob/master/plotmachine.R)
 
 Automatic plotting of group means using ggplot. Sample output:
 
